@@ -10,14 +10,14 @@ import Foundation
 
 class ApiBase {
     public var baseUrl: String?
-    
+
     convenience init(baseUrl: String?) {
         self.init()
         if let baseUrl = baseUrl {
             self.baseUrl = baseUrl
         }
     }
-    
+
     init() {
         self.baseUrl = Settings.hostname
     }

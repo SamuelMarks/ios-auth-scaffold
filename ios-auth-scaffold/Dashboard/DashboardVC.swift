@@ -11,7 +11,7 @@ import UIKit
 class DashboardVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        redirIfUnAuth()
+        redirectIfUnauthenticated()
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,7 +22,7 @@ class DashboardVC: UIViewController {
 
     @IBAction func onLogout(_ sender: UIButton) {
         Settings.access_token = nil
-        redirIfUnAuth()
+        redirectIfUnauthenticated()
     }
 }
 

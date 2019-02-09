@@ -11,6 +11,7 @@ import Foundation
 protocol Loopable {
     var allProperties: [String: Any] { get }
 }
+
 extension Loopable {
     var allProperties: [String: Any] {
         var result = [String: Any]()

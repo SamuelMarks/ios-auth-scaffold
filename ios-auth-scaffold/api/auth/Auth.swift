@@ -11,14 +11,14 @@ import Foundation
 struct Auth: Codable {
     let email: String
     let password: String
-    
+
     /*func getString() -> String {
         return "\"email\": \"\(email)\", \"password\":\"\(password)\""
     }*/
-    
+
     func toJSON() -> Data? {
         return try? JSONSerialization.data(
-            withJSONObject: self, options: []
+                withJSONObject: self, options: []
         )
     }
 }

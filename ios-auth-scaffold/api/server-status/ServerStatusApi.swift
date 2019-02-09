@@ -10,7 +10,7 @@ import Foundation
 
 class ServerStatusApi: ApiBase {
     let api = "/api"
-    
+
     func get(completion: @escaping (ErrorResponse?, ServerStatus?) -> ()) {
         JsonHttpClient
                 .instance(root: baseUrl)

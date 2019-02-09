@@ -19,7 +19,7 @@ struct ErrorResponse: Codable {
         self.error_message = error_message
         self._meta = nil
     }
-    
+
     func toString() -> String {
         return "\(error): \(error_message)\(_meta == nil ? "" : " | with " + _meta!)"
     }

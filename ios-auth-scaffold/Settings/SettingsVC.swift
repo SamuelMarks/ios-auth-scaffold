@@ -15,12 +15,12 @@ class SettingsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
     }
-    
-    override func removeFromParentViewController() {
-        super.removeFromParentViewController()
+
+    override func removeFromParent() {
+        super.removeFromParent()
     }
 
     @IBAction func hostnameEditBegun(_ sender: UITextField) {
@@ -35,6 +35,7 @@ class SettingsVC: UIViewController {
     @IBAction func onBack(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
+
     @IBAction func hostnamePrimaryAction(_ sender: UITextField) {
         route.sendActions(for: .touchUpInside)
     }

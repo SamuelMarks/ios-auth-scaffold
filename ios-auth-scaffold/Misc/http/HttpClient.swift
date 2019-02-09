@@ -53,7 +53,6 @@ class HttpClient {
                                data: Data?, completion: @escaping (ErrorResponse?, T?) -> ()) {
         var request = URLRequest(url: url)
         request.setValue(mimeType, forHTTPHeaderField: "Content-Type")
-        print("mimeType =", mimeType)
         if Settings.access_token != nil {
             request.setValue(Settings.access_token, forHTTPHeaderField: "X-Access-Token")
         }
@@ -61,14 +60,14 @@ class HttpClient {
         if data != nil && method != .get {
             request.httpBody = data!
             print("request.httpMethod", request.httpMethod!, url.absoluteURL, request.httpBody!,
-                  String(describing: String(data: request.httpBody!, encoding: String.Encoding.utf8)))
+                    String(describing: String(data: request.httpBody!, encoding: String.Encoding.utf8)))
         }
 
         let session = URLSession.shared
 
         let er = "error calling \(request.httpMethod!) on \(url.absoluteURL)"
 
-        let task = session.dataTask(with: request) {
+        let task: URLSessionDataTask = session.dataTask(with: request) {
             (data, response, error) in
             guard error == nil else {
                 return completion(ErrorResponse(error: "dataTask", error_message: "\(er)\n\(error!)"), nil)
@@ -79,7 +78,8 @@ class HttpClient {
             }
 
             do {
-                return completion(nil, try JSONDecoder().decode(T.self, from: responseData))
+                let j = try JSONDecoder().decode(T.self, from: responseData);
+                return completion(nil, j)
             } catch {
                 do {
                     var e: ErrorResponse = try JSONDecoder().decode(ErrorResponse.self, from: responseData)
@@ -96,9 +96,10 @@ class HttpClient {
                     } catch {
 
                         // do {
+
                         return completion(ErrorResponse(error: "JSONDecoder",
                                 error_message: "failed on \(request.httpMethod!) \(url.absoluteURL)." +
-                        " Str: \(String(describing: String(data: responseData, encoding: String.Encoding.utf8)))"), nil)
+                                        " Str: \(String(describing: String(data: responseData, encoding: String.Encoding.utf8)!))"), nil)
                         /*} catch {
                             return completion(ErrorResponse(error: "JSONDecoder",
                                     error_message: "failed on \(request.httpMethod!) \(url.absoluteURL). Raw: \(responseData)"),

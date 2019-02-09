@@ -32,9 +32,8 @@ class AuthVC: UIViewController {
         AuthApi().register(auth: auth) { (error: ErrorResponse?, user: User?) in
             if let error = error {
                 self.mainErr(error: error)
-            }
-            else if user != nil {
-                self.redirIfAuth()
+            } else if user != nil {
+                self.redirectIfAuthenticated()
             }
         }
     }
@@ -48,13 +47,14 @@ class AuthVC: UIViewController {
             }
             if let serverStatus = serverStatus {
                 DispatchQueue.main.async {
+                    print("serverStatus")
                     self.version.text = serverStatus.getString()
                 }
             }
         }
     }
 
-    fileprivate func redirIfAuth() {
+    fileprivate func redirectIfAuthenticated() {
         if Settings.access_token != nil {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             if let vc = storyboard.instantiateInitialViewController() {
@@ -69,19 +69,19 @@ class AuthVC: UIViewController {
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // redirIfAuth()
+        // redirectIfAuthenticated()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("AuthVC.viewDidLoad")
         initSettings()
-        redirIfAuth()
+        redirectIfAuthenticated()
     }
-    
+
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
         if let ident = identifier {
             return ident == "settingsSegue" || Settings.access_token != nil
